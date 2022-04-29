@@ -18,7 +18,7 @@ export const getProject = async (req, res) => {
     });
 
     if (!project) {
-      return res.status(404).json({ message: "Project not found" });
+      throw new Error("Project not found");
     }
 
     res.status(202).json({ data: project });
@@ -46,6 +46,11 @@ export const deleteProject = async (req, res) => {
   try {
     const { id } = req.params;
 
+    const project = Project.findByPk(id);
+    if (!project) {
+      throw new Error("Project not found");
+    }
+
     await Project.destroy({
       where: { id },
     });
@@ -63,6 +68,10 @@ export const updateProject = async (req, res) => {
     const { id } = req.params;
 
     const project = await Project.findByPk(id);
+
+    if (!project) {
+      throw new Error("Project not found");
+    }
 
     project.name = name;
     project.priority = priority;
