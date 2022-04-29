@@ -7,7 +7,6 @@ export const getTasks = async (req, res) => {
     res.status(200).json({
       data: tasks,
     });
-    
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -15,9 +14,9 @@ export const getTasks = async (req, res) => {
 
 export const createTask = async (req, res) => {
   try {
-    const { name, projectId } = req.body;
+    const { name, done } = req.body;
 
-    const newTask = await Task.create({ name, projectId });
+    const newTask = await Task.create({ name, done });
 
     res.status(200).json({
       message: "Task created successfully",
