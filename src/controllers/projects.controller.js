@@ -28,10 +28,11 @@ export const deleteProject = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const res = await Project.delete({ id });
-    console.log(res);
+    await Project.destroy({
+      where: { id },
+    });
 
-    res.send("deleting project");
+    res.sendStatus(204);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
