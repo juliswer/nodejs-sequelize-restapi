@@ -9,6 +9,24 @@ export const getProjects = async (req, res) => {
   }
 };
 
+export const getProject = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const project = await Project.findOne({
+      where: { id },
+    });
+
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    res.status(202).json({ data: project });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 export const createProject = async (req, res) => {
   try {
     const { name, priority, description } = req.body;
@@ -56,24 +74,6 @@ export const updateProject = async (req, res) => {
       message: "Project updated successfully",
       data: project,
     });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-export const getProject = async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    const project = await Project.findOne({
-      where: { id },
-    });
-
-    if (!project) {
-      return res.status(404).json({ message: "Project not found" });
-    }
-
-    res.status(202).json({ data: project });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
