@@ -4,6 +4,8 @@ import { PORT } from "./config.js";
 import "./models/Project.js";
 import "./models/Task.js";
 
+// ? Starting the app
+
 async function main() {
   try {
     await sequelize.sync({ force: true });

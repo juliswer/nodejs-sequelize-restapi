@@ -2,6 +2,8 @@ import { DataTypes } from "sequelize";
 import { sequelize } from "../database/database.js";
 import { Task } from "./Task.js";
 
+// * Define the Project model
+
 export const Project = sequelize.define("projects", {
   id: {
     type: DataTypes.INTEGER,
@@ -18,6 +20,8 @@ export const Project = sequelize.define("projects", {
     type: DataTypes.STRING,
   },
 });
+
+// * Add a foreign key to the Task model
 
 Project.hasMany(Task, {
   foreignKey: "projectId",
