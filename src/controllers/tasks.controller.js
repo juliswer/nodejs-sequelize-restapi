@@ -12,6 +12,24 @@ export const getTasks = async (req, res) => {
   }
 };
 
+export const getTask = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const task = Task.findOne({
+      where: { id },
+    });
+    if (!task) {
+      throw new Error("Task not found");
+    }
+    res.status(200).json({
+      data: task,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 export const createTask = async (req, res) => {
   try {
     const { name, done, projectId } = req.body;
@@ -22,6 +40,45 @@ export const createTask = async (req, res) => {
       message: "Task created successfully",
       data: newTask,
     });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const updateTask = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, done, projectId } = req.body;
+
+    const task = await Task.findByPk(id);
+
+    if (!task) {
+      throw new Error("Task not found");
+    }
+
+    task.name = name;
+    task.done = done;
+    task.projectId = projectId;
+    await task.save();
+
+    res.status(200).json({
+      message: "Task updated successfully",
+      data: task,
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const deleteTask = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    await Task.destroy({
+      where: { id },
+    });
+
+    res.sendStatus(204);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
