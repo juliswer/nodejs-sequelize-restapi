@@ -41,16 +41,22 @@ export const deleteProject = async (req, res) => {
 export const updateProject = async (req, res) => {
   try {
     const { name, priority, description } = req.body;
+
     const { id } = req.params;
+
     const project = await Project.findByPk(id);
+
     project.name = name;
     project.priority = priority;
     project.description = description;
+
     await project.save();
+
     res.status(200).json({
       message: "Project updated successfully",
       data: project,
     });
+    
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
