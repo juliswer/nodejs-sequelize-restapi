@@ -5,7 +5,7 @@ export const getProjects = async (req, res) => {
     const projects = await Project.findAll();
     res.status(200).json(projects);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ error });
   }
 };
 
@@ -20,7 +20,7 @@ export const createProject = async (req, res) => {
       data: newProject,
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ error });
   }
 };
 
@@ -34,6 +34,33 @@ export const deleteProject = async (req, res) => {
 
     res.sendStatus(204);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ error });
   }
 };
+
+export const updateProject = async (req, res) => {
+  try {
+    const { name, priority, description } = req.body;
+    const { id } = req.params;
+
+    
+
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+};
+
+export const getProject = async (req, res) => {
+  try {
+    const {id} = req.params;
+
+    const project = await Project.findOne({
+      where: {id}
+    })
+
+    res.status(202).json({data: project})
+
+  } catch (error) {
+    res.status(500).json({error})
+  }
+}
