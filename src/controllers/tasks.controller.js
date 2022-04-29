@@ -1,4 +1,5 @@
 import { Task } from "../models/Task.js";
+import { Project } from "../models/Project.js";
 
 export const getTasks = async (req, res) => {
   try {
@@ -33,7 +34,10 @@ export const getTask = async (req, res) => {
 export const createTask = async (req, res) => {
   try {
     const { name, done, projectId } = req.body;
-
+    const findProject = await Project.findByPk(projectId);
+    if(!findProject) {
+      throw new Error("Project not found")
+    }
     const newTask = await Task.create({ name, done, projectId });
 
     res.status(200).json({
