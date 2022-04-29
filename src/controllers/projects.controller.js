@@ -56,7 +56,6 @@ export const updateProject = async (req, res) => {
       message: "Project updated successfully",
       data: project,
     });
-    
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -69,6 +68,10 @@ export const getProject = async (req, res) => {
     const project = await Project.findOne({
       where: { id },
     });
+
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
 
     res.status(202).json({ data: project });
   } catch (error) {
