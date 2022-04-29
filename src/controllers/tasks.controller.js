@@ -16,7 +16,7 @@ export const getTask = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const task = Task.findOne({
+    const task = await Task.findOne({
       where: { id },
     });
     if (!task) {
@@ -45,7 +45,7 @@ export const createTask = async (req, res) => {
   }
 };
 
-const updateTask = async (req, res) => {
+export const updateTask = async (req, res) => {
   try {
     const { id } = req.params;
     const { name, done, projectId } = req.body;
