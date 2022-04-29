@@ -3,6 +3,7 @@ export const getProjects = (req, res) => {
 };
 
 export const createProject = (req, res) => {
+  console.log(req.body);
   res.send("creating project");
 };
 
