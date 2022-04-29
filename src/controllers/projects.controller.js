@@ -1,19 +1,38 @@
 import { Project } from "../models/Project.js";
 
 export const getProjects = async (req, res) => {
-  const projects = await Project.findAll();
-  console.log(projects);
-  res.send("project");
+  try {
+    const projects = await Project.findAll();
+    res.status(200).json(projects);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const createProject = async (req, res) => {
-  const { name, priority, description } = req.body;
+  try {
+    const { name, priority, description } = req.body;
 
-  const newProject = await Project.create({ name, priority, description });
-  console.log(newProject);
-  res.send("creating project");
+    const newProject = await Project.create({ name, priority, description });
+
+    res.status(200).json({
+      message: "Project created successfully",
+      data: newProject,
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-export const deleteProject = (req, res) => {
-  res.send("deleting project");
+export const deleteProject = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const res = await Project.delete({ id });
+    console.log(res);
+
+    res.send("deleting project");
+  } catch (error) {
+    console.log(error);
+  }
 };
