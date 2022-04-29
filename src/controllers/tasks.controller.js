@@ -74,11 +74,18 @@ export const deleteTask = async (req, res) => {
   try {
     const { id } = req.params;
 
-    await Task.destroy({
-      where: { id },
-    });
+    const task = Task.findByPk(id);
+    if (!task) {
+      throw new Error("Task not found");
+    } else {
+      await Task.destroy({
+        where: { id },
+      });
+    }
 
-    res.sendStatus(204);
+    res.status(200).json({
+      message: "Task deleted successfully",
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
