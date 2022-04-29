@@ -5,7 +5,7 @@ export const getProjects = async (req, res) => {
     const projects = await Project.findAll();
     res.status(200).json(projects);
   } catch (error) {
-    console.log(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -20,7 +20,7 @@ export const createProject = async (req, res) => {
       data: newProject,
     });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -33,6 +33,6 @@ export const deleteProject = async (req, res) => {
 
     res.send("deleting project");
   } catch (error) {
-    console.log(error);
+    res.status(500).json({ message: error.message });
   }
 };
